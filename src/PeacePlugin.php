@@ -49,7 +49,6 @@ class PeacePlugin implements PluginInterface, EventSubscriberInterface
 
     public function onPostDump()
     {
-        echo "======================";
         $path = $this->composer->getConfig()->get('vendor-dir') . '/illuminate';
         (new PeaceMessenger($path))->run();
     }

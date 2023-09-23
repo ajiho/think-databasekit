@@ -32,7 +32,13 @@
   "minimum-stability": "stable",
   "require": {
     "composer-plugin-api": "^2.3",
-    "nikic/php-parser": "^4.17"
+    "nikic/php-parser": "^4.17",
+    "vlucas/phpdotenv": "^4",
+    "illuminate/events": "^7",
+    "illuminate/console": "^7",
+    "illuminate/filesystem": "^7",
+    "fakerphp/faker": "^1.20",
+    "illuminate/database": "^7.0"
   },
   "require-dev": {
     "composer/composer": "^2.3",
