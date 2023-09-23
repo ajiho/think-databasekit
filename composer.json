@@ -1,0 +1,47 @@
+{
+  "name": "ajiho/think-illuminate-database",
+  "scripts": {
+    "test": "php test/test.php"
+  },
+  "description": "illuminate/database integration for thinkphp6",
+  "keywords": [
+    "illuminate",
+    "composer plugin",
+    "laravel",
+    "eloquent",
+    "orm",
+    "database",
+    "sql"
+  ],
+  "homepage": "https://gitee.com/ajiho/think-illuminate-database",
+  "type": "composer-plugin",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "ajiho\\IlluminateDatabase\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "ajiho",
+      "email": "lujiahao@88.com",
+      "homepage": "https://gitee.com/ajiho",
+      "role": "Developer"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "composer-plugin-api": "^2.3",
+    "nikic/php-parser": "^4.17"
+  },
+  "require-dev": {
+    "composer/composer": "^2.3",
+    "illuminate/database": "^7.0"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.x-dev"
+    },
+    "class": "ajiho\\IlluminateDatabase\\PeacePlugin"
+  }
+}
