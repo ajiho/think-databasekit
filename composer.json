@@ -38,7 +38,8 @@
     "illuminate/console": "^7",
     "illuminate/filesystem": "^7",
     "fakerphp/faker": "^1.20",
-    "illuminate/database": "^7.0"
+    "illuminate/database": "^7.0",
+    "topthink/framework": "^6.0"
   },
   "require-dev": {
     "composer/composer": "^2.3",
