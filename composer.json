@@ -19,7 +19,10 @@
   "autoload": {
     "psr-4": {
       "ajiho\\IlluminateDatabase\\": "src/"
-    }
+    },
+    "files": [
+      "src/helper.php"
+    ]
   },
   "authors": [
     {
@@ -42,13 +45,20 @@
     "topthink/framework": "^6.0"
   },
   "require-dev": {
-    "composer/composer": "^2.3",
-    "illuminate/database": "^7.0"
+    "composer/composer": "^2.3"
   },
   "extra": {
     "branch-alias": {
       "dev-master": "0.x-dev"
     },
-    "class": "ajiho\\IlluminateDatabase\\PeacePlugin"
+    "class": "ajiho\\IlluminateDatabase\\PeacePlugin",
+    "think": {
+      "services": [
+        "ajiho\\IlluminateDatabase\\Service"
+      ],
+      "config": {
+        "illuminate-database": "src/config.php"
+      }
+    }
   }
 }

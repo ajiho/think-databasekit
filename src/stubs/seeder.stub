@@ -1,0 +1,16 @@
+<?php
+
+use Illuminate\Database\Seeder;
+
+class {{ class }} extends Seeder
+{
+    /**
+     * 运行种子文件
+     *
+     * @return void
+     */
+    public function run()
+    {
+        //
+    }
+}
