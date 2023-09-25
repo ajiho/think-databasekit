@@ -14,7 +14,7 @@ class Service extends \think\Service
 
     public function register()
     {
-        //实例化laravel实例
+        //实例化容器
         new Application(root_path());
 
         //注册帮助指令
@@ -22,6 +22,7 @@ class Service extends \think\Service
             \ajiho\IlluminateDatabase\Commands\MigrateMake::class,
             \ajiho\IlluminateDatabase\Commands\ModelMake::class,
             \ajiho\IlluminateDatabase\Commands\Migrate::class,
+            \ajiho\IlluminateDatabase\Commands\Seed::class,
         ]);
     }
 

@@ -4,7 +4,6 @@ namespace ajiho\IlluminateDatabase\Commands;
 
 use ajiho\IlluminateDatabase\Command;
 use think\console\Input;
-use think\console\input\Argument;
 use think\console\input\Option;
 use think\console\Output;
 
@@ -24,12 +23,12 @@ class Migrate extends Command
     {
         $this->setName('idb:migrate')
             ->addOption('database', null, Option::VALUE_OPTIONAL, 'The database connection to use')
-            ->addOption('force', null, Option::VALUE_OPTIONAL, 'Force the operation to run when in production')
-            ->addOption('path', null, Option::VALUE_OPTIONAL, 'The path(s) to the migrations files to be executed')
-            ->addOption('realpath', null, Option::VALUE_OPTIONAL, 'Indicate any provided migration file paths are pre-resolved absolute paths')
-            ->addOption('pretend', null, Option::VALUE_OPTIONAL, 'Dump the SQL queries that would be run')
-            ->addOption('seed', null, Option::VALUE_OPTIONAL, 'Indicates if the seed task should be re-run')
-            ->addOption('step', null, Option::VALUE_OPTIONAL, 'Force the migrations to be run so they can be rolled back individually')
+            ->addOption('force', null, Option::VALUE_NONE, 'Force the operation to run when in production')
+            ->addOption('path', null, Option::VALUE_IS_ARRAY, 'The path(s) to the migrations files to be executed')
+            ->addOption('realpath', null, Option::VALUE_NONE, 'Indicate any provided migration file paths are pre-resolved absolute paths')
+            ->addOption('pretend', null, Option::VALUE_NONE, 'Dump the SQL queries that would be run')
+            ->addOption('seed', null, Option::VALUE_NONE, 'Indicates if the seed task should be re-run')
+            ->addOption('step', null, Option::VALUE_NONE, 'Force the migrations to be run so they can be rolled back individually')
             ->setDescription('Run the database migrations');
     }
 

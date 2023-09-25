@@ -48,22 +48,6 @@ return [
             'engine' => null,
         ],
         // 更多的数据库配置信息
-        'mysql2' => [
-            'driver' => 'mysql',
-            'url' => env('database.url'),
-            'host' => env('db.host', '127.0.0.1'),
-            'port' => env('db.port', '3306'),
-            'database' => 'phinx2',
-            'username' => env('db.username', 'root'),
-            'password' => env('db.password', ''),
-            'unix_socket' => env('db.socket', ''),
-            'charset' => env('db.charset', 'utf8mb4'),
-            'collation' => env('db.collation', 'utf8mb4_unicode_ci'),
-            'prefix' => 'px2_',
-            'prefix_indexes' => true,
-            'strict' => true,
-            'engine' => null,
-        ]
     ],
 
     /*

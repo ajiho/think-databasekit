@@ -30,8 +30,8 @@ class MigrateMake extends Command
             ->addOption('create', null, Option::VALUE_OPTIONAL, 'The table to be created')
             ->addOption('table', null, Option::VALUE_OPTIONAL, 'The table to migrate')
             ->addOption('path', null, Option::VALUE_OPTIONAL, 'The location where the migration file should be created')
-            ->addOption('realpath', null, Option::VALUE_OPTIONAL, 'Indicate any provided migration file paths are pre-resolved absolute paths')
-            ->addOption('fullpath', null, Option::VALUE_OPTIONAL, 'Output the full path of the migration')
+            ->addOption('realpath', null, Option::VALUE_NONE, 'Indicate any provided migration file paths are pre-resolved absolute paths')
+            ->addOption('fullpath', null, Option::VALUE_NONE, 'Output the full path of the migration')
             ->setDescription('Create a new migration file');
     }
 
