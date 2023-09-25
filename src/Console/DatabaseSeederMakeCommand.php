@@ -2,9 +2,7 @@
 
 namespace ajiho\IlluminateDatabase\Console;
 
-use Illuminate\Database\Console\Seeds\SeederMakeCommand;
-
-class DatabaseSeederMakeCommand extends SeederMakeCommand
+class DatabaseSeederMakeCommand extends \Illuminate\Database\Console\Seeds\SeederMakeCommand
 {
 
     protected $name = 'make:databaseseeder';

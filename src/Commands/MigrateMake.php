@@ -37,17 +37,8 @@ class MigrateMake extends Command
 
     protected function execute(Input $input, Output $output)
     {
-        //迁移文件名
+
         $name = trim($input->getArgument('name'));
-
-        $path = 'db/migrations';
-        //创建迁移文件目录
-        $this->artisan->makeMigrateDir($path);
-
-
-        //找到迁移指令
-        $command = $this->artisan['artisan']->find('make:migration');
-
 
         //参数准备
         $arguments = ['name' => $name];
@@ -59,7 +50,9 @@ class MigrateMake extends Command
             $arguments += ['--table' => $input->getOption('table')];
         }
 
-        $arguments += ['--path' => $input->hasOption('path') ? $input->getOption('path') : $path];
+        if ($input->hasOption('path')) {
+            $arguments += ['--path' => $input->getOption('path')];
+        }
 
         if ($input->hasOption('realpath')) {
             $arguments += ['--realpath'];
@@ -69,12 +62,8 @@ class MigrateMake extends Command
             $arguments += ['--fullpath'];
         }
 
-        //执行命令
-        $result = $this->artisan->runCommand($command, $arguments);
+        return $this->laravel->runCommand('make:migration', $arguments, true);
 
-
-        //输出
-        $output->writeln($result);
 
     }
 }

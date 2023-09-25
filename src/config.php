@@ -33,7 +33,7 @@ return [
     'connections' => [
         'mysql' => [
             'driver' => 'mysql',
-            'url' => env('database.url'),
+            'url' => env('db.url'),
             'host' => env('db.host', '127.0.0.1'),
             'port' => env('db.port', '3306'),
             'database' => env('db.database', ''),

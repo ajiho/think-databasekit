@@ -3,9 +3,9 @@
 namespace ajiho\IlluminateDatabase\Console;
 
 
-use Illuminate\Database\Console\Seeds\SeederMakeCommand as BaseSeederMakeCommand;
 
-class SeederMakeCommand extends BaseSeederMakeCommand
+
+class SeederMakeCommand extends \Illuminate\Database\Console\Seeds\SeederMakeCommand
 {
     /**
      * 返回seeders的存根目录

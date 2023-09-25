@@ -42,7 +42,8 @@
     "illuminate/filesystem": "^7",
     "fakerphp/faker": "^1.20",
     "illuminate/database": "^7.0",
-    "topthink/framework": "^6.0"
+    "topthink/framework": "^6.0",
+    "ext-json": "*"
   },
   "require-dev": {
     "composer/composer": "^2.3"

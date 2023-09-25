@@ -3,7 +3,7 @@
 use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Factory;
 
-function idb_factory()
+function factory()
 {
 
     $factory = Container::getInstance()->make(Factory::class);

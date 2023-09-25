@@ -13,7 +13,7 @@ use think\console\Output;
 class ModelMake extends Command
 {
 
-    private $type = 'laravel-model';
+    private $type = 'model';
 
     protected function configure()
     {
