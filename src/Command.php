@@ -11,6 +11,8 @@ class Command extends \think\console\Command
 
     protected $laravel;
 
+    protected $subsPath;
+
     public function __construct()
     {
 
@@ -21,6 +23,8 @@ class Command extends \think\console\Command
         $app->registerCommands();
 
         $this->laravel = $app;
+
+        $this->subsPath = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR;
 
     }
 

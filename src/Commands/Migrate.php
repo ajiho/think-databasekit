@@ -68,7 +68,6 @@ class Migrate extends Command
 
         return $this->laravel->runCommand('migrate', $arguments, true);
 
-
     }
 
 }

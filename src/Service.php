@@ -21,6 +21,7 @@ class Service extends \think\Service
         $this->commands([
             \ajiho\IlluminateDatabase\Commands\MigrateMake::class,
             \ajiho\IlluminateDatabase\Commands\ModelMake::class,
+            \ajiho\IlluminateDatabase\Commands\Migrate::class,
         ]);
     }
 

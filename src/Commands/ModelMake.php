@@ -75,15 +75,13 @@ class ModelMake extends Command
         }
 
 
-        $ret = 'app' . ($app ? '\\' . $app : '') . '\\model' . '\\' . $name;
-
-        return $ret;
+        return 'app' . ($app ? '\\' . $app : '') . '\\model' . '\\' . $name;
     }
 
 
     protected function buildClass(string $name): string
     {
-        $stub = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'model.stub');
+        $stub = file_get_contents($this->subsPath . 'model.stub');
         $namespace = trim(implode('\\', array_slice(explode('\\', $name), 0, -1)), '\\');
         $class = str_replace($namespace . '\\', '', $name);
         return str_replace(['{%className%}', '{%namespace%}'], [
