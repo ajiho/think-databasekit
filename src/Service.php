@@ -24,6 +24,7 @@ class Service extends \think\Service
             \ajiho\IlluminateDatabase\Commands\Migrate::class,
             \ajiho\IlluminateDatabase\Commands\Seed::class,
             \ajiho\IlluminateDatabase\Commands\SeederMake::class,
+            \ajiho\IlluminateDatabase\Commands\Wipe::class,
         ]);
     }
 
