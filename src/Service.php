@@ -19,11 +19,18 @@ class Service extends \think\Service
 
         //注册帮助指令
         $this->commands([
+            \ajiho\IlluminateDatabase\Commands\FactoryMake::class,
+            \ajiho\IlluminateDatabase\Commands\Fresh::class,
+            \ajiho\IlluminateDatabase\Commands\Install::class,
+            \ajiho\IlluminateDatabase\Commands\Migrate::class,
             \ajiho\IlluminateDatabase\Commands\MigrateMake::class,
             \ajiho\IlluminateDatabase\Commands\ModelMake::class,
-            \ajiho\IlluminateDatabase\Commands\Migrate::class,
+            \ajiho\IlluminateDatabase\Commands\Refresh::class,
+            \ajiho\IlluminateDatabase\Commands\Reset::class,
+            \ajiho\IlluminateDatabase\Commands\Rollback::class,
             \ajiho\IlluminateDatabase\Commands\Seed::class,
             \ajiho\IlluminateDatabase\Commands\SeederMake::class,
+            \ajiho\IlluminateDatabase\Commands\Status::class,
             \ajiho\IlluminateDatabase\Commands\Wipe::class,
         ]);
     }
