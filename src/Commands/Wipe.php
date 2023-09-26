@@ -12,10 +12,10 @@ class Wipe extends Command
     protected function configure()
     {
         $this->setName('idb:db:wipe')
-            ->addOption('database', Option::VALUE_OPTIONAL, 'The database connection to use')
-            ->addOption('drop-views', Option::VALUE_NONE, 'Drop all tables and views')
-            ->addOption('drop-types', Option::VALUE_NONE, 'Drop all tables and types (Postgres only)')
-            ->addOption('force', Option::VALUE_NONE, 'Force the operation to run when in production')
+            ->addOption('database', null,Option::VALUE_OPTIONAL, 'The database connection to use')
+            ->addOption('drop-views', null,Option::VALUE_NONE, 'Drop all tables and views')
+            ->addOption('drop-types', null,Option::VALUE_NONE, 'Drop all tables and types (Postgres only)')
+            ->addOption('force', null,Option::VALUE_NONE, 'Force the operation to run when in production')
             ->setDescription('Drop all tables, views, and types');
     }
 
