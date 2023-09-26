@@ -42,7 +42,9 @@ composer require ajiho/think-illuminate-database
   idb:migrate:status    Show the status of each migration
 ~~~
 
-同时在config目录下生成配置文件`illuminate-database.php`
+## 配置
+
+安装完成后会同时在config目录下生成配置文件`illuminate-database.php`
 
 ```php
 <?php
@@ -140,9 +142,10 @@ PASSWORD = password
 CHARSET =  utf8mb4
 ```
 
+PS:上面的配置文件只是基本示例,你可以按照tp官方的文档做调整
 
 
 ## 文档地址
 
-https://laravel.com/docs/7.x/eloquent
-https://laravel.com/docs/7.x/database
+- https://laravel.com/docs/7.x/eloquent
+- https://laravel.com/docs/7.x/database
