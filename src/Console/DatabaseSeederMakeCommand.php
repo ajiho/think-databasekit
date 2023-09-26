@@ -14,7 +14,7 @@ class DatabaseSeederMakeCommand extends \Illuminate\Database\Console\Seeds\Seede
      */
     protected function getStub()
     {
-        return root_path() . 'app/stubs/databaseSeeder.stub';
+        return $this->laravel['path.stubs'] . DIRECTORY_SEPARATOR.'databaseSeeder.stub';
     }
 
 
