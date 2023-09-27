@@ -186,7 +186,6 @@ class Application extends Container implements ApplicationContract
         $this['artisan']->add(new MigrateCommand($migrator));
         $this['artisan']->add(new MigrateMakeCommand($creator, $this['composer']));
         $this['artisan']->add(new SeederMakeCommand($this['files'], $this['composer']));
-        $this['artisan']->add(new DatabaseSeederMakeCommand($this['files'], $this['composer']));
         $this['artisan']->add(new FactoryMakeCommand($this['files']));
         $this['artisan']->add(new SeedCommand($this['db']));
         $this['artisan']->add(new WipeCommand());

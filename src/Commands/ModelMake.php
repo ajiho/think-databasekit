@@ -20,7 +20,7 @@ class ModelMake extends Command
 
         $this->setName('idb:make:model')
             ->addArgument('name', Argument::REQUIRED, "The name of the class")
-            ->setDescription('Create a new laravel model class');
+            ->setDescription('Create a new Eloquent model class');
     }
 
 
