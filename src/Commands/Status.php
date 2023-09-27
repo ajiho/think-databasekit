@@ -37,6 +37,6 @@ class Status extends Command
         }
 
 
-        return $this->laravel->run('migrate:status', $arguments, true);
+        return $this->laravel->run('migrate:status', $arguments, true,true);
     }
 }

@@ -23,7 +23,7 @@ class SeederMake extends Command
         //参数准备
         $arguments = ['name' => $name];
 
-        return $this->laravel->run('make:seeder', $arguments, true);
+        return $this->laravel->run('make:seeder', $arguments, true,true);
 
     }
 }

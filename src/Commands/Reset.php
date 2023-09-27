@@ -45,7 +45,7 @@ class Reset extends Command
             $arguments += ['--pretend'];
         }
 
-        return $this->laravel->run('migrate:reset', $arguments, true);
+        return $this->laravel->run('migrate:reset', $arguments, true,true);
 
     }
 }

@@ -65,7 +65,7 @@ class Fresh extends Command
             $arguments += ['--step'];
         }
 
-        return $this->laravel->run('migrate:fresh', $arguments, true);
+        return $this->laravel->run('migrate:fresh', $arguments, true,true);
 
     }
 

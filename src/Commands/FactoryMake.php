@@ -30,7 +30,7 @@ class FactoryMake extends Command
             $arguments += ['--model' => $input->getOption('model')];
         }
 
-        return $this->laravel->run('make:factory', $arguments, true);
+        return $this->laravel->run('make:factory', $arguments, true,true);
 
     }
 }

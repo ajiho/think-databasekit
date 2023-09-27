@@ -36,7 +36,7 @@ class Seed extends Command
             $arguments += ['--force'];
         }
 
-        return $this->laravel->run('db:seed', $arguments, true);
+        return $this->laravel->run('db:seed', $arguments, true,true);
 
     }
 }

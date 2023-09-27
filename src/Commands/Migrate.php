@@ -56,7 +56,7 @@ class Migrate extends Command
             $arguments += ['--step'];
         }
 
-        return $this->laravel->run('migrate', $arguments, true);
+        return $this->laravel->run('migrate', $arguments, true,true);
 
     }
 
