@@ -33,7 +33,6 @@ use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use think\facade\Config;
 use think\Paginator;
-use ajiho\IlluminateDatabase\Console\DatabaseSeederMakeCommand;
 use ajiho\IlluminateDatabase\Console\FactoryMakeCommand;
 use ajiho\IlluminateDatabase\Console\SeederMakeCommand;
 use ajiho\IlluminateDatabase\Console\MigrateMakeCommand;
@@ -244,36 +243,29 @@ class Application extends Container implements ApplicationContract
      * @param $commandName string 可用指令make:migration、
      * @param $arguments array 参数
      * @param $runningInConsole boolean 是否在控制台中执行
+     * @param $outputExecTime boolean 是否输出执行时间
      * @return string
      */
-    public function runCommand($commandName, $arguments, $runningInConsole = false)
+    public function run($commandName, $arguments, $runningInConsole = false, $outputExecTime = false)
     {
         //找到指令
         $command = $this['artisan']->find($commandName);
 
         //输出对象
         $output = $runningInConsole ? new ConsoleOutput() : new BufferedOutput();
-
-        //运行指令
-        try {
-            $start = microtime(true);
+        $start = microtime(true);
+        if ($runningInConsole === false) {//如果不是在控制台上执行
+            try {
+                $command->run(new ArrayInput($arguments), $output);
+                return $outputExecTime ? $output->fetch() . " 执行时间：" . (microtime(true) - $start) . " 秒" : $output->fetch();
+            } catch (\Exception $e) {
+                return $outputExecTime ? $e->getMessage() . " 执行时间：" . (microtime(true) - $start) . " 秒" : $e->getMessage();
+            }
+        } else {
             $status = $command->run(new ArrayInput($arguments), $output);
-            $end = microtime(true);
-            $elapsed = $end - $start;
-            print_r("执行时间：{$elapsed} 秒\n");
-            if ($runningInConsole === false) {
-                return $output->fetch();
-            }
+            $outputExecTime && print_r("执行时间：" . (microtime(true) - $start) . " 秒", true);
             return $status;
-
-        } catch (\Exception $e) {
-            if ($runningInConsole === false) {
-                return $e->getMessage();
-            }
-            throw new RuntimeException($e->getMessage());
         }
-
-
     }
 
 

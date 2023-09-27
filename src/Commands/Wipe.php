@@ -40,7 +40,7 @@ class Wipe extends Command
             $arguments += ['--force'];
         }
 
-        return $this->laravel->runCommand('db:wipe', $arguments, true);
+        return $this->laravel->run('db:wipe', $arguments, true);
 
     }
 

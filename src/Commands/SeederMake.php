@@ -20,11 +20,10 @@ class SeederMake extends Command
     {
 
         $name = trim($input->getArgument('name'));
-
         //参数准备
         $arguments = ['name' => $name];
 
-        return $this->laravel->runCommand('make:seeder', $arguments, true);
+        return $this->laravel->run('make:seeder', $arguments, true);
 
     }
 }

@@ -2,8 +2,8 @@
 
 喜欢tp6的目录结构和框架的轻量和灵活？又想使用laravel的orm操作数据库？
 
-
-让thinkphp6的轻量+laravel的orm=数据库迁移工具+强大的数据库操作+愉悦的开发心情
+`think-illuminate-database`是[thinkphp6.0+](https://github.com/top-think/framework)和[illuminate/database](https://github.com/illuminate/database)的粘合剂，它可以让你光速体验
+laravel的orm操作。
 
 ## 特性
 
@@ -147,5 +147,8 @@ PS:上面的配置文件只是基本示例,你可以按照tp官方的文档做�
 
 ## 文档地址
 
+- https://laravel.com/docs/7.x/migrations
 - https://laravel.com/docs/7.x/eloquent
 - https://laravel.com/docs/7.x/database
+
+

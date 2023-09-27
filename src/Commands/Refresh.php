@@ -55,7 +55,7 @@ class Refresh extends Command
             $arguments += ['--step' => $input->getOption('step')];
         }
 
-        return $this->laravel->runCommand('migrate:refresh', $arguments, true);
+        return $this->laravel->run('migrate:refresh', $arguments, true);
 
     }
 }

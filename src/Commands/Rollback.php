@@ -50,7 +50,7 @@ class Rollback extends Command
             $arguments += ['--step' => $input->getOption('step')];
         }
 
-        return $this->laravel->runCommand('migrate:rollback', $arguments, true);
+        return $this->laravel->run('migrate:rollback', $arguments, true);
 
     }
 }

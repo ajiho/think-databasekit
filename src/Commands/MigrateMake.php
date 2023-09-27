@@ -52,7 +52,7 @@ class MigrateMake extends Command
             $arguments += ['--fullpath'];
         }
 
-        return $this->laravel->runCommand('make:migration', $arguments, true);
+        return $this->laravel->run('make:migration', $arguments, true);
 
 
     }

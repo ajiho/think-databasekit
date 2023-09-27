@@ -25,7 +25,7 @@ class Install extends Command
             $arguments += ['--database' => $input->getOption('database')];
         }
 
-        return $this->laravel->runCommand('migrate:install', $arguments, true);
+        return $this->laravel->run('migrate:install', $arguments, true);
 
     }
 }
