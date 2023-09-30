@@ -250,23 +250,43 @@ class Application extends Container implements ApplicationContract
         //找到指令
         $command = $this['artisan']->find($commandName);
 
+
         //输出对象
         $output = $runningInConsole ? new ConsoleOutput() : new BufferedOutput();
+
+        //执行开始时间
         $start = microtime(true);
-        if ($runningInConsole === false) {//如果不是在控制台上执行
-            try {
-                $command->run(new ArrayInput($arguments), $output);
-                return $outputExecTime ? $output->fetch() . " 执行时间：" . (microtime(true) - $start) . " 秒" : $output->fetch();
-            } catch (\Exception $e) {
-                return $outputExecTime ? $e->getMessage() . " 执行时间：" . (microtime(true) - $start) . " 秒" : $e->getMessage();
-            }
-        } else {
+
+        try {
             $status = $command->run(new ArrayInput($arguments), $output);
-            $outputExecTime && print_r("执行时间：" . (microtime(true) - $start) . " 秒", true);
+
+            if ($runningInConsole === false) {//如果不是运行在cli下需要直接返回执行结果
+                return $outputExecTime ? $output->fetch() . $this->getExecTime($start) : $output->fetch();
+            }
+
+            $outputExecTime && $output->writeln($this->getExecTime($start));
+
+
             return $status;
+
+        } catch (\Exception $e) {
+
+            if ($runningInConsole === false) {//如果不是运行在cli下需要直接返回异常信息
+                return $outputExecTime ? $e->getMessage() . $this->getExecTime($start) : $e->getMessage();
+            }
+
+            //非cli情况直接输出错误信息到cmd上
+            $output->writeln("<error>" . $e->getMessage() . "</error>");
+            //判断是否需要输出执行时间
+            $outputExecTime && $output->writeln($this->getExecTime($start));
         }
+
     }
 
+    private function getExecTime($startMicrotime)
+    {
+        return "执行时间:" . (microtime(true) - $startMicrotime) . " 秒";;
+    }
 
     protected function getConfig()
     {
