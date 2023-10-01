@@ -31,7 +31,7 @@ composer require ajiho/think-illuminate-database
   idb:db:wipe           Drop all tables, views, and types
   idb:make:factory      Create a new model factory
   idb:make:migration    Create a new migration file
-  idb:make:model        Create a new laravel model class
+  idb:make:model        Create a new Eloquent model class
   idb:make:seeder       Create a new seeder class
   idb:migrate           Run the database migrations
   idb:migrate:fresh     Drop all tables and re-run all migrations
@@ -139,7 +139,9 @@ PORT = 3306
 DATABASE = test
 USERNAME = username
 PASSWORD = password
-CHARSET =  utf8mb4
+CHARSET =  utf8
+COLLATION = utf8_general_ci
+PREFIX =  test_
 ```
 
 PS:上面的配置文件只是基本示例,你可以按照tp官方的文档做调整
