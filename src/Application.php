@@ -3,7 +3,6 @@
 namespace ajiho\IlluminateDatabase;
 
 
-
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Console\Application as ConsoleApplication;
@@ -39,7 +38,6 @@ use ajiho\IlluminateDatabase\Console\MigrateMakeCommand;
 use ajiho\IlluminateDatabase\Console\SeedCommand;
 
 
-
 class Application extends Container implements ApplicationContract
 {
 
@@ -67,12 +65,10 @@ class Application extends Container implements ApplicationContract
 
     public function __construct($basePath = null)
     {
+
         if ($basePath) {
             $this->basePath = rtrim($basePath, '\/');
         }
-
-        //illuminate-database.php配置文件内容
-        $this->instance('config.idb', $this->getConfig());
 
         //基本的实例绑定
         $this->registerBaseBindings();
@@ -123,8 +119,11 @@ class Application extends Container implements ApplicationContract
 
     protected function registerBaseBindings()
     {
+
         static::setInstance($this);
 
+        //illuminate-database.php配置文件内容
+        $this->singleton('config.idb', $this->getConfig());
 
         $this->singleton(
             'events',
@@ -132,7 +131,6 @@ class Application extends Container implements ApplicationContract
                 return new Dispatcher($app);
             }
         );
-
         $this->singleton(
             \Illuminate\Contracts\Events\Dispatcher::class,
             function ($app) {
@@ -140,30 +138,40 @@ class Application extends Container implements ApplicationContract
             }
         );
 
+        $capsule = $this->connectionDatabase();
 
-        $this->singleton('db', function ($app) {
-
-            $capsule = new Capsule;
-
-            //添加连接
-            foreach ($this['config.idb']['connections'] as $connectionName => $connection) {
-                $capsule->addConnection($connection, $connectionName);
-            }
-
-
-            //设置默认数据库连接
-            $capsule->getDatabaseManager()->setDefaultConnection($this['config.idb']['default']);
-
-            $capsule->setEventDispatcher($app['events']);
-            $capsule->setAsGlobal();
-            $capsule->bootEloquent();
-
+        $this->singleton('db', function () use ($capsule) {
             return $capsule->getDatabaseManager();
-
         });
 
         //门脸类初始化
         Facade::setFacadeApplication($this);
+
+    }
+
+    public function connectionDatabase()
+    {
+
+        $capsule = new Capsule;
+
+        //多库连接
+        foreach ($this['config.idb']['connections'] as $connectionName => $connection) {
+            $capsule->addConnection($connection, $connectionName);
+        }
+
+        //设置默认数据库连接
+        $capsule->getDatabaseManager()->setDefaultConnection($this['config.idb']['default']);
+
+        //设置Eloquent模型使用的事件调度程序
+        $capsule->setEventDispatcher($this['events']);
+
+        //通过静态方法使此Capsule实例全局可用
+        $capsule->setAsGlobal();
+
+        //设置Eloquent ORM(需要设置setEventDispatcher可用)
+        $capsule->bootEloquent();
+
+        return $capsule;
     }
 
 
