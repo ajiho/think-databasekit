@@ -123,7 +123,7 @@ class Application extends Container implements ApplicationContract
         static::setInstance($this);
 
         //illuminate-database.php配置文件内容
-        $this->singleton('config.idb', $this->getConfig());
+        $this->instance('config.idb', $this->getConfig());
 
         $this->singleton(
             'events',
