@@ -80,41 +80,152 @@ class Application extends Container implements ApplicationContract
     protected function addMethodsToBuilder()
     {
 
-        Builder::macro('tpPaginate', function ($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null): Paginator {
+
+        //重写DB类的paginate,底层使用tp6的分页驱动
+        Builder::macro('idbPaginate', function (
+            $perPage = 15,
+            $columns = ['*'],
+            $pageName = 'page',
+            $page = null,
+            $query = [],
+            $fragment = '',
+            $path = null
+        ) {
 
             $page = $page ?: Paginator::getCurrentPage($pageName);
             $total = $this->getCountForPagination();
-            $results = $total ? json_decode(json_encode($this->forPage($page, $perPage)->get($columns)), true) : new \think\Collection([]);
+
+
+            $results = new \think\Collection([]);
+            $collections = $total ? $this->forPage($page, $perPage)->get($columns) : \Illuminate\Support\collect();
+            $collections->map(function ($item) use ($results) {
+                $results->push($item);
+            });
 
 
             $config = [
-                'var_page' => $pageName
+                'query' => $query, //url额外参数
+                'fragment' => $fragment, //url锚点
+                'path' => $path ?: Paginator::getCurrentPath(), //url路径
+                'var_page' => $pageName, //分页变量
+                'list_rows' => $perPage, //每页数量
             ];
 
-            $config['path'] = $config['path'] ?? Paginator::getCurrentPath();
-
-
             return Paginator::make($results, $perPage, $page, $total, false, $config);
+
 
 
         });
 
 
-        EloquentBuilder::macro('tpPaginate', function ($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null) {
+        //重写DB类的simplePaginate,底层使用tp6的分页驱动
+        Builder::macro('idbSimplePaginate', function (
+            $perPage = 15,
+            $columns = ['*'],
+            $pageName = 'page',
+            $page = null,
+            $query = [],
+            $fragment = '',
+            $path = null
+        ) {
 
             $page = $page ?: Paginator::getCurrentPage($pageName);
-            $perPage = $perPage ?: $this->model->getPerPage();
-            $results = ($total = $this->toBase()->getCountForPagination()) ? $this->forPage($page, $perPage)->get($columns)->toArray() : $this->model->newCollection();
+            $this->offset(($page - 1) * $perPage)->limit($perPage + 1);
+
+
+            $results = new \think\Collection([]);
+            $collections = $this->get($columns);
+            $collections->map(function ($item) use ($results) {
+                $results->push($item);
+            });
+
 
             $config = [
-                'var_page' => $pageName
+                'query' => $query, //url额外参数
+                'fragment' => $fragment, //url锚点
+                'path' => $path ?: Paginator::getCurrentPath(), //url路径
+                'var_page' => $pageName, //分页变量
+                'list_rows' => $perPage, //每页数量
             ];
 
-            $config['path'] = $config['path'] ?? Paginator::getCurrentPath();
-
-            return Paginator::make($results, $perPage, $page, $total, false, $config);
+            return Paginator::make($results, $perPage, $page, null, true, $config);
 
         });
+
+
+        //重写模型的paginate,使用tp6的分页驱动
+        EloquentBuilder::macro('idbPaginate', function (
+            $perPage = null,
+            $columns = ['*'],
+            $pageName = 'page',
+            $page = null,
+            $query = [],
+            $fragment = '',
+            $path = null
+        ) {
+
+            $results = new \think\Collection([]);
+            $page = $page ?: Paginator::getCurrentPage($pageName);
+            $perPage = $perPage ?: $this->model->getPerPage();
+            $total = $this->toBase()->getCountForPagination();
+            $collections = ($total) ? $this->forPage($page, $perPage)->get($columns) : $this->model->newCollection();
+            $collections->map(function ($item) use ($results) {
+                $results->push($item);
+            });
+
+
+            $config = [
+                'query' => $query, //url额外参数
+                'fragment' => $fragment, //url锚点
+                'path' => $path ?: Paginator::getCurrentPath(), //url路径
+                'var_page' => $pageName, //分页变量
+                'list_rows' => $perPage, //每页数量
+            ];
+            return Paginator::make($results, $perPage, $page, $total, false, $config);
+        });
+
+
+        //重写模型simplePaginate简单分页方法,让底层使用tp6的分页驱动
+        EloquentBuilder::macro('idbSimplePaginate', function (
+            $perPage = null,
+            $columns = ['*'],
+            $pageName = 'page',
+            $page = null,
+            $query = [],
+            $fragment = '',
+            $path = null
+        ) {
+
+            $page = $page ?: Paginator::getCurrentPage($pageName);
+
+
+            $perPage = $perPage ?: $this->model->getPerPage();
+            //接下来，我们将设置此查询的限制和偏移量，以便在获得
+            //结果我们得到了结果的适当部分。然后，我们将创建完整的
+            //给定页面和每页的这些结果的分页器实例。
+            $this->skip(($page - 1) * $perPage)->take($perPage + 1);
+
+            $results = new \think\Collection([]);
+            $collections = $this->get($columns);
+            $collections->map(function ($item) use ($results) {
+                $results->push($item);
+            });
+
+            $config = [
+                'query' => $query, //url额外参数
+                'fragment' => $fragment, //url锚点
+                'path' => $path ?: Paginator::getCurrentPath(), //url路径
+                'var_page' => $pageName, //分页变量
+                'list_rows' => $perPage, //每页数量
+            ];
+
+            return Paginator::make($results, $perPage, $page, null, true, $config);
+
+        });
+
+
+
+
     }
 
     protected function registerBaseBindings()
