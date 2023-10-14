@@ -207,6 +207,14 @@ $admin = \app\common\model\Admin::create($params, true);
 ，其它模型都继承它
 
 ```php
+php think idb:make:model Base
+
+//多应用模式
+php think idb:make:model common@Base
+```
+
+
+```php
 declare (strict_types = 1);
 
 namespace app\common\model;
@@ -270,14 +278,15 @@ $admins = \app\common\model\Admin::where('status', 1)->orderBy('id', 'desc')->pa
 
 ```php
 // 分页
-$admins = \app\common\model\Admin::where('status', 1)->orderBy('id', 'desc')->idbPaginate(2,['*'],'page',null);
+$admins = \app\common\model\Admin::where('status', 1)->orderBy('id', 'desc')->idbPaginate(2);
 
 //简单分页
-$admins = \app\common\model\Admin::where('status', 1)->orderBy('id', 'desc')->idbSimplePaginate(2,['*'],'page',null);
+$admins = \app\common\model\Admin::where('status', 1)->orderBy('id', 'desc')->idbSimplePaginate(2);
 ```
 
-`idbPaginate`、和`idbSimplePaginate`方法底层使用的tp框架的分页驱动，因此在原本的方法上追加了3个参数,
+`idbPaginate`、和`idbSimplePaginate`方法底层使用的tp框架的分页驱动，因此在`illuminate/database`原本的`paginate()`方法上追加了3个参数,
 
+以下是具体参数和默认值
 ```
 idbPaginate(
 $perPage = null,  //每页数量-》类似tp的分页参数中的list_rows
@@ -290,7 +299,7 @@ $path = null //追加的参数--》   url路径
 )
 ```
 
-因此您想追加分页参数，应该就很容易明白了。以及在视图文件中渲染，也是按照原本tp的分页去渲染就完事了。
+具体可以查看tp的官方文档的[分页参数部分](https://www.kancloud.cn/manual/thinkphp6_0/1037638)因此您想追加分页参数，应该就很容易明白了。以及在视图文件中渲染，也是按照原本tp的分页去渲染就完事了。
 
 
 ### 待补充
