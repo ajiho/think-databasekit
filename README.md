@@ -2,26 +2,32 @@
 
 喜欢tp6的目录结构和框架的轻量和灵活？又想使用laravel的orm操作数据库？
 
-`think-illuminate-database`是[thinkphp6.0+](https://github.com/top-think/framework)和[illuminate/database](https://github.com/illuminate/database)的粘合剂，它可以让你光速体验
+`think-illuminate-database`是[thinkphp6.0+](https://github.com/top-think/framework)
+和[illuminate/database](https://github.com/illuminate/database)的粘合剂，它可以让你光速体验
 laravel的orm操作。
 
 ## 特性
 
 - 无侵入性安装，不和tp官方有任何冲突
 - 不影响tp内置的orm功能
-- 集成和artisan一模一样的指令,让你无缝过渡
+- 提供和artisan一模一样的指令,让你快速创建所需文件基本模板
 - 不单单是orm,也是一个强大的数据库迁移工具
-
 
 ## 安装
 
-
+稳定版(未发布,无法安装)
 ```
 composer require ajiho/think-illuminate-database
 ```
 
-安装过程中会询问你是否确认安装该插件？ `y`
+开发版(因此如果您要尝试这个包，您需要执行以下指令)
+```
+composer require ajiho/think-illuminate-database:0.x-dev
+```
 
+
+
+安装过程中会询问你是否确认安装该插件？ `y`
 
 安装完毕后运行`php think`可以看到新增指令
 
@@ -146,16 +152,148 @@ PREFIX =  test_
 
 PS:上面的配置文件只是基本示例,你可以按照laravel官方的文档做调整
 
-
 ## 文档地址
 
 - https://laravel.com/docs/7.x/migrations
 - https://laravel.com/docs/7.x/eloquent
 - https://laravel.com/docs/7.x/database
 
-
 ## 计划
 
 
+可以看到目前提供的文档地址是7.x的版本，所以目前的计划就是，先在一个项目里实战后，看看哪里还有什么问题
+以及需要优化的地方、再陆续升级到8.x、9.x、10.x
 
+
+
+
+## 补充说明
+
+以下是几个重要的补充，请认真阅读，如果我在实战过程中，还有后续问题，会继续补充。
+
+
+### 模型的操作
+
+如果您是第一次使用`illuminate/database`的模型，它不像thinkphp框架一样，创建就能操作了,您需要注意几件事情。
+
+
+
+1.laravel的表名是复数形式问题，因此如果您的数据表没有保持复数形式，您可能
+需要去模型指定表名
+
+```php
+declare (strict_types = 1);
+
+namespace app\common\model;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Admin extends Model
+{
+    protected $table = 'admin';
+
+}
+```
+
+2.您可能已经习惯性的使用类似`create()`这种批量赋值新增的方法。
+
+在tp框架中，您可能是直接第二个参数加一个true就可以直接过滤非数据库字段就插入了。
+
+```php
+$admin = \app\common\model\Admin::create($params, true);
+```
+
+那么您在`illuminate/database`模型中，则需要指定模型的黑名单，或者白名单,因此建议您可以新建一个Base模型
+，其它模型都继承它
+
+```php
+declare (strict_types = 1);
+
+namespace app\common\model;
+
+use DateTimeInterface;
+use Illuminate\Database\Eloquent\Model;
+
+
+class Base extends Model
+{
+
+    
+    protected $dateFormat = 'U';
+
+    const CREATED_AT = 'create_time';
+    const UPDATED_AT = 'update_time';
+
+
+    // 设置添加时的黑名单
+    protected $guarded = [];
+
+
+    // 处理时间格式化问题
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
+
+}
+```
+
+这种才可以正常的使用create方法新增数据
+
+
+
+
+### 分页
+
+`illuminate/database`该库本身是单纯
+的提供数据库支持的，所以你按照laravel的文档按照如下方式调用快捷分页方法时,它会报错`Class 'Illuminate\Pagination\Paginator' not found`
+
+```php
+$admins = \app\common\model\Admin::where('status', 1)->orderBy('id', 'desc')->paginate(10);
+```
+
+这不是`think-illuminate-database`封装导致它无法使用的 ,因为如果你要使用它的原本的分页方法你还必须安装
+
+- [illuminate/pagination](https://packagist.org/packages/illuminate/pagination)
+- [illuminate/view](https://packagist.org/packages/illuminate/view)
+- ....
+
+为什么还有一个省略号？因为我在实际测试中，发现它最后会依赖其它的`illuminate/*`系列组件
+
+本身`illuminate/database`的初衷就只是为了在laravel框架之外使用这个优雅而强大的数据库操作,因此
+我一开始的强行支持`paginate`方法的正常使用就是错的，因为安装了太多原本不需要的东西。
+
+那么就没有办法优雅的使用`paginate`方法来进行快速分页了么？
+
+不用担心,`think-illuminate-database`已经帮您做好了这一切。
+
+
+```php
+// 分页
+$admins = \app\common\model\Admin::where('status', 1)->orderBy('id', 'desc')->idbPaginate(2,['*'],'page',null);
+
+//简单分页
+$admins = \app\common\model\Admin::where('status', 1)->orderBy('id', 'desc')->idbSimplePaginate(2,['*'],'page',null);
+```
+
+`idbPaginate`、和`idbSimplePaginate`方法底层使用的tp框架的分页驱动，因此在原本的方法上追加了3个参数,
+
+```
+idbPaginate(
+$perPage = null,  //每页数量-》类似tp的分页参数中的list_rows
+$columns = ['*'], 
+$pageName = 'page', //分页变量-》类似tp的分页参数中的var_page
+$page = null     // 当前页-》类似tp的分页参数中的page(这里刚好名字相同)
+$query = [], //追加的参数-》   url额外参数
+$fragment = '',//追加的参数-》 url锚点
+$path = null //追加的参数--》   url路径
+)
+```
+
+因此您想追加分页参数，应该就很容易明白了。以及在视图文件中渲染，也是按照原本tp的分页去渲染就完事了。
+
+
+### 待补充
+
+实战中有问题会继续补充。
 
