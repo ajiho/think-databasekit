@@ -1,9 +1,8 @@
 <?php
 
-namespace ajiho\IlluminateDatabase\Commands;
+namespace ajiho\databasekit\command;
 
-use ajiho\IlluminateDatabase\Command;
-use Symfony\Component\Console\Input\ArrayInput;
+use ajiho\databasekit\Command;
 use think\console\Input;
 use think\console\input\Argument;
 use think\console\input\Option;
@@ -15,7 +14,7 @@ class MigrateMake extends Command
 
     protected function configure()
     {
-        $this->setName('idb:make:migration')
+        $this->setName('dbk:make:migration')
             ->addArgument('name', Argument::OPTIONAL, 'The name of the migration')
             ->addOption('create', null, Option::VALUE_OPTIONAL, 'The table to be created')
             ->addOption('table', null, Option::VALUE_OPTIONAL, 'The table to migrate')
@@ -52,8 +51,9 @@ class MigrateMake extends Command
             $arguments += ['--fullpath'];
         }
 
-        return $this->laravel->run('make:migration', $arguments, true,true);
 
+
+        $this->call('make:migration', $arguments);
 
     }
 }

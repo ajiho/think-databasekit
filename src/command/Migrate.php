@@ -1,8 +1,8 @@
 <?php
 
-namespace ajiho\IlluminateDatabase\Commands;
+namespace ajiho\databasekit\command;
 
-use ajiho\IlluminateDatabase\Command;
+use ajiho\databasekit\Command;
 use think\console\Input;
 use think\console\input\Option;
 use think\console\Output;
@@ -12,7 +12,7 @@ class Migrate extends Command
 
     protected function configure()
     {
-        $this->setName('idb:migrate')
+        $this->setName('dbk:migrate')
             ->addOption('database', null, Option::VALUE_OPTIONAL, 'The database connection to use')
             ->addOption('force', null, Option::VALUE_NONE, 'Force the operation to run when in production')
             ->addOption('path', null, Option::VALUE_OPTIONAL|Option::VALUE_IS_ARRAY, 'The path(s) to the migrations files to be executed')
@@ -25,6 +25,8 @@ class Migrate extends Command
 
     protected function execute(Input $input, Output $output)
     {
+
+
 
         //参数准备
         $arguments = [];
@@ -56,7 +58,10 @@ class Migrate extends Command
             $arguments += ['--step'];
         }
 
-        return $this->laravel->run('migrate', $arguments, true,true);
+
+
+        $this->call('migrate', $arguments);
+
 
     }
 

@@ -1,23 +1,21 @@
 <?php
 
-namespace ajiho\IlluminateDatabase\Commands;
+namespace ajiho\databasekit\command;
 
-use ajiho\IlluminateDatabase\Command;
+use ajiho\databasekit\Command;
 use think\console\Input;
 use think\console\input\Option;
 use think\console\Output;
 
-class Reset extends Command
+class Status extends Command
 {
     protected function configure()
     {
-        $this->setName('idb:migrate:reset')
+        $this->setName('dbk:migrate:status')
             ->addOption('database', null, Option::VALUE_OPTIONAL, 'The database connection to use')
-            ->addOption('force', null, Option::VALUE_NONE, 'Force the operation to run when in production')
-            ->addOption('path', null, Option::VALUE_OPTIONAL|Option::VALUE_IS_ARRAY, 'The path(s) to the migrations files to be executed')
+            ->addOption('path', null, Option::VALUE_OPTIONAL | Option::VALUE_IS_ARRAY, 'The path(s) to the migrations files to use')
             ->addOption('realpath', null, Option::VALUE_NONE, 'Indicate any provided migration file paths are pre-resolved absolute paths')
-            ->addOption('pretend', null, Option::VALUE_NONE, 'Dump the SQL queries that would be run')
-            ->setDescription('Rollback all database migrations');
+            ->setDescription('Show the status of each migration');
     }
 
     protected function execute(Input $input, Output $output)
@@ -29,9 +27,6 @@ class Reset extends Command
             $arguments += ['--database' => $input->getOption('database')];
         }
 
-        if ($input->hasOption('force')) {
-            $arguments += ['--force'];
-        }
 
         if ($input->hasOption('path')) {
             $arguments += ['--path' => $input->getOption('path')];
@@ -41,11 +36,7 @@ class Reset extends Command
             $arguments += ['--realpath'];
         }
 
-        if ($input->hasOption('pretend')) {
-            $arguments += ['--pretend'];
-        }
 
-        return $this->laravel->run('migrate:reset', $arguments, true,true);
-
+        $this->call('migrate:status', $arguments);
     }
 }

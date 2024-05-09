@@ -1,6 +1,6 @@
 <?php
 
-namespace ajiho\IlluminateDatabase\Console;
+namespace ajiho\databasekit\console;
 
 
 
@@ -14,7 +14,9 @@ class SeederMakeCommand extends \Illuminate\Database\Console\Seeds\SeederMakeCom
      */
     protected function getStub()
     {
-        return $this->laravel['path.stubs'] . DIRECTORY_SEPARATOR.'seeder.stub';
+
+        return $this->laravel['path.stubs.seeder'];
+
     }
 
 
@@ -36,6 +38,7 @@ class SeederMakeCommand extends \Illuminate\Database\Console\Seeds\SeederMakeCom
     protected function getPath($name)
     {
 
+
         $path = parent::getPath($name);
 
         //先判断目录是否存在
@@ -49,9 +52,9 @@ class SeederMakeCommand extends \Illuminate\Database\Console\Seeds\SeederMakeCom
         if (!$exists) {
 
             $files->makeDirectory(dirname($databaseSeederPath), 0777, true, true);
-            //找到存根
 
-            $stub = file_get_contents($this->laravel['path.stubs'] . DIRECTORY_SEPARATOR . 'databaseSeeder.stub');
+            //找到存根
+            $stub = file_get_contents($this->laravel['path.stubs.seeder.database']);
 
             $newStub = str_replace(['{{ class }}'], [
                 'DatabaseSeeder',

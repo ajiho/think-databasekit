@@ -1,8 +1,8 @@
 <?php
 
-namespace ajiho\IlluminateDatabase\Commands;
+namespace ajiho\databasekit\command;
 
-use ajiho\IlluminateDatabase\Command;
+use ajiho\databasekit\Command;
 use think\console\Input;
 use think\console\input\Option;
 use think\console\Output;
@@ -11,7 +11,7 @@ class Wipe extends Command
 {
     protected function configure()
     {
-        $this->setName('idb:db:wipe')
+        $this->setName('dbk:db:wipe')
             ->addOption('database', null,Option::VALUE_OPTIONAL, 'The database connection to use')
             ->addOption('drop-views', null,Option::VALUE_NONE, 'Drop all tables and views')
             ->addOption('drop-types', null,Option::VALUE_NONE, 'Drop all tables and types (Postgres only)')
@@ -40,7 +40,7 @@ class Wipe extends Command
             $arguments += ['--force'];
         }
 
-        return $this->laravel->run('db:wipe', $arguments, true,true);
+        $this->call('db:wipe', $arguments);
 
     }
 

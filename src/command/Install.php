@@ -1,8 +1,8 @@
 <?php
 
-namespace ajiho\IlluminateDatabase\Commands;
+namespace ajiho\databasekit\command;
 
-use ajiho\IlluminateDatabase\Command;
+use ajiho\databasekit\Command;
 use think\console\Input;
 use think\console\input\Option;
 use think\console\Output;
@@ -11,7 +11,7 @@ class Install extends Command
 {
     protected function configure()
     {
-        $this->setName('idb:migrate:install')
+        $this->setName('dbk:migrate:install')
             ->addOption('database', null, Option::VALUE_OPTIONAL, 'The database connection to use')
             ->setDescription('Create the migration repository');
     }
@@ -25,7 +25,7 @@ class Install extends Command
             $arguments += ['--database' => $input->getOption('database')];
         }
 
-        return $this->laravel->run('migrate:install', $arguments, true,true);
+        $this->call('migrate:install', $arguments);
 
     }
 }

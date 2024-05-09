@@ -1,24 +1,23 @@
 {
-  "name": "ajiho/think-illuminate-database",
-  "scripts": {
-    "test": "php test/test.php"
-  },
+  "name": "ajiho/think-databasekit",
+  "type": "library",
   "description": "illuminate/database integration for thinkphp6",
   "keywords": [
+    "database migrations",
+    "migrations",
+    "thinkphp",
     "illuminate",
-    "composer plugin",
     "laravel",
     "eloquent",
     "orm",
     "database",
     "sql"
   ],
-  "homepage": "https://gitee.com/ajiho/think-illuminate-database",
-  "type": "composer-plugin",
+  "homepage": "https://github.com/ajiho/think-databasekit",
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "ajiho\\IlluminateDatabase\\": "src/"
+      "ajiho\\databasekit\\": "src/"
     },
     "files": [
       "src/helper.php"
@@ -28,7 +27,7 @@
     {
       "name": "ajiho",
       "email": "lujiahao@88.com",
-      "homepage": "https://gitee.com/ajiho",
+      "homepage": "https://github.com/ajiho",
       "role": "Developer"
     }
   ],
@@ -43,7 +42,8 @@
     "fakerphp/faker": "^1.20",
     "illuminate/database": "^7.0",
     "topthink/framework": "^6.0",
-    "ext-json": "*"
+    "ext-json": "*",
+    "ajiho/illuminate-files-scoper": "^1.0"
   },
   "require-dev": {
     "composer/composer": "^2.3"
@@ -52,14 +52,18 @@
     "branch-alias": {
       "dev-master": "0.x-dev"
     },
-    "class": "ajiho\\IlluminateDatabase\\PeacePlugin",
     "think": {
       "services": [
-        "ajiho\\IlluminateDatabase\\Service"
+        "ajiho\\databasekit\\Service"
       ],
       "config": {
-        "illuminate-database": "src/config.php"
+        "databasekit": "src/config.php"
       }
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "ajiho/illuminate-files-scoper": true
     }
   }
 }

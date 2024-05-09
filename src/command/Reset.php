@@ -1,25 +1,23 @@
 <?php
 
-namespace ajiho\IlluminateDatabase\Commands;
+namespace ajiho\databasekit\command;
 
-use ajiho\IlluminateDatabase\Command;
+use ajiho\databasekit\Command;
 use think\console\Input;
 use think\console\input\Option;
 use think\console\Output;
 
-class Refresh extends Command
+class Reset extends Command
 {
     protected function configure()
     {
-        $this->setName('idb:migrate:refresh')
+        $this->setName('dbk:migrate:reset')
             ->addOption('database', null, Option::VALUE_OPTIONAL, 'The database connection to use')
             ->addOption('force', null, Option::VALUE_NONE, 'Force the operation to run when in production')
             ->addOption('path', null, Option::VALUE_OPTIONAL|Option::VALUE_IS_ARRAY, 'The path(s) to the migrations files to be executed')
             ->addOption('realpath', null, Option::VALUE_NONE, 'Indicate any provided migration file paths are pre-resolved absolute paths')
-            ->addOption('seed', null, Option::VALUE_NONE, 'Indicates if the seed task should be re-run')
-            ->addOption('seeder', null, Option::VALUE_OPTIONAL, 'The class name of the root seeder')
-            ->addOption('step', null, Option::VALUE_OPTIONAL, 'The number of migrations to be reverted & re-run')
-            ->setDescription('Reset and re-run all migrations');
+            ->addOption('pretend', null, Option::VALUE_NONE, 'Dump the SQL queries that would be run')
+            ->setDescription('Rollback all database migrations');
     }
 
     protected function execute(Input $input, Output $output)
@@ -43,19 +41,11 @@ class Refresh extends Command
             $arguments += ['--realpath'];
         }
 
-        if ($input->hasOption('seed')) {
-            $arguments += ['--seed'];
+        if ($input->hasOption('pretend')) {
+            $arguments += ['--pretend'];
         }
 
-        if ($input->hasOption('seeder')) {
-            $arguments += ['--seeder' => $input->getOption('seeder')];
-        }
-
-        if ($input->hasOption('step')) {
-            $arguments += ['--step' => $input->getOption('step')];
-        }
-
-        return $this->laravel->run('migrate:refresh', $arguments, true,true);
+        $this->call('migrate:reset', $arguments);
 
     }
 }

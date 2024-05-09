@@ -1,12 +1,11 @@
 <?php
 
-namespace ajiho\IlluminateDatabase\Commands;
+namespace ajiho\databasekit\command;
 
-use ajiho\IlluminateDatabase\Command;
-use Symfony\Component\Console\Input\ArrayInput;
+use ajiho\databasekit\Command;
+use Illuminate\Support\Facades\Facade;
 use think\console\Input;
 use think\console\input\Argument;
-use think\console\input\Option;
 use think\console\Output;
 
 
@@ -18,7 +17,7 @@ class ModelMake extends Command
     protected function configure()
     {
 
-        $this->setName('idb:make:model')
+        $this->setName('dbk:make:model')
             ->addArgument('name', Argument::REQUIRED, "The name of the class")
             ->setDescription('Create a new Eloquent model class');
     }
@@ -81,7 +80,10 @@ class ModelMake extends Command
 
     protected function buildClass(string $name): string
     {
-        $stub = file_get_contents($this->subsPath . 'model.stub');
+        //初始化
+        $app = $this->getApplication();
+
+        $stub = file_get_contents($app['path.stubs.model']);
         $namespace = trim(implode('\\', array_slice(explode('\\', $name), 0, -1)), '\\');
         $class = str_replace($namespace . '\\', '', $name);
         return str_replace(['{%className%}', '{%namespace%}'], [

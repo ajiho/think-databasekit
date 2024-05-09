@@ -1,10 +1,17 @@
-## think-illuminate-database
+## think-databasekit
+
+| **illuminate/database** | **think-databasekit** |
+|-------------------------|---------------------|
+| 7.0                     | ^1.0                |
+
+
 
 喜欢tp6的目录结构和框架的轻量和灵活？又想使用laravel的orm操作数据库？
 
-`think-illuminate-database`是[thinkphp6.0+](https://github.com/top-think/framework)
+`think-databasekit`是[thinkphp6.0+](https://github.com/top-think/framework)
 和[illuminate/database](https://github.com/illuminate/database)的粘合剂，它可以让你光速体验
 laravel的orm操作。
+
 
 ## 特性
 
@@ -15,16 +22,9 @@ laravel的orm操作。
 
 ## 安装
 
-稳定版(未发布,无法安装)
 ```
-composer require ajiho/think-illuminate-database
+composer require ajiho/think-databasekit
 ```
-
-开发版(因此如果您要尝试这个包，您需要执行以下指令)
-```
-composer require ajiho/think-illuminate-database:0.x-dev
-```
-
 
 
 安装过程中会询问你是否确认安装该插件？ `y`
@@ -32,25 +32,25 @@ composer require ajiho/think-illuminate-database:0.x-dev
 安装完毕后运行`php think`可以看到新增指令
 
 ~~~
- idb
-  idb:db:seed           Seed the database with records
-  idb:db:wipe           Drop all tables, views, and types
-  idb:make:factory      Create a new model factory
-  idb:make:migration    Create a new migration file
-  idb:make:model        Create a new Eloquent model class
-  idb:make:seeder       Create a new seeder class
-  idb:migrate           Run the database migrations
-  idb:migrate:fresh     Drop all tables and re-run all migrations
-  idb:migrate:install   Create the migration repository
-  idb:migrate:refresh   Reset and re-run all migrations
-  idb:migrate:reset     Rollback all database migrations
-  idb:migrate:rollback  Rollback all database migrations
-  idb:migrate:status    Show the status of each migration
+ dbk
+  dbk:db:seed           Seed the database with records
+  dbk:db:wipe           Drop all tables, views, and types
+  dbk:make:factory      Create a new model factory
+  dbk:make:migration    Create a new migration file
+  dbk:make:model        Create a new Eloquent model class
+  dbk:make:seeder       Create a new seeder class
+  dbk:migrate           Run the database migrations
+  dbk:migrate:fresh     Drop all tables and re-run all migrations
+  dbk:migrate:install   Create the migration repository
+  dbk:migrate:refresh   Reset and re-run all migrations
+  dbk:migrate:reset     Rollback all database migrations
+  dbk:migrate:rollback  Rollback all database migrations
+  dbk:migrate:status    Show the status of each migration
 ~~~
 
 ## 配置
 
-安装完成后会同时在config目录下生成配置文件`illuminate-database.php`
+安装完成后会同时在config目录下生`databasekit.php`
 
 ```php
 <?php
@@ -138,7 +138,7 @@ return [
 
 此时你可以把下面的代码复制到您的`.env`文件中,快速配置后即可开始享受这一切！
 
-```php
+```
 [DB]
 HOST = 127.0.0.1
 PORT = 3306
@@ -150,7 +150,7 @@ COLLATION = utf8_general_ci
 PREFIX =  test_
 ```
 
-PS:上面的配置文件只是基本示例,你可以按照laravel官方的文档做调整
+
 
 ## 文档地址
 
@@ -163,7 +163,6 @@ PS:上面的配置文件只是基本示例,你可以按照laravel官方的文档
 
 可以看到目前提供的文档地址是7.x的版本，所以目前的计划就是，先在一个项目里实战后，看看哪里还有什么问题
 以及需要优化的地方、再陆续升级到8.x、9.x、10.x
-
 
 
 
@@ -207,10 +206,10 @@ $admin = \app\common\model\Admin::create($params, true);
 ，其它模型都继承它
 
 ```php
-php think idb:make:model Base
+php think dbk:make:model Base
 
 //多应用模式
-php think idb:make:model common@Base
+php think dbk:make:model common@Base
 ```
 
 
@@ -260,7 +259,7 @@ class Base extends Model
 $admins = \app\common\model\Admin::where('status', 1)->orderBy('id', 'desc')->paginate(10);
 ```
 
-这不是`think-illuminate-database`封装导致它无法使用的 ,因为如果你要使用它的原本的分页方法你还必须安装
+这不是`think-databasekit`封装导致它无法使用的 ,因为如果你要使用它的原本的分页方法你还必须安装
 
 - [illuminate/pagination](https://packagist.org/packages/illuminate/pagination)
 - [illuminate/view](https://packagist.org/packages/illuminate/view)
@@ -273,22 +272,22 @@ $admins = \app\common\model\Admin::where('status', 1)->orderBy('id', 'desc')->pa
 
 那么就没有办法优雅的使用`paginate`方法来进行快速分页了么？
 
-不用担心,`think-illuminate-database`已经帮您做好了这一切。
+不用担心,`think-databasekit`已经帮您做好了这一切。
 
 
 ```php
 // 分页
-$admins = \app\common\model\Admin::where('status', 1)->orderBy('id', 'desc')->idbPaginate(2);
+$admins = \app\common\model\Admin::where('status', 1)->orderBy('id', 'desc')->dbkPaginate(2);
 
 //简单分页
-$admins = \app\common\model\Admin::where('status', 1)->orderBy('id', 'desc')->idbSimplePaginate(2);
+$admins = \app\common\model\Admin::where('status', 1)->orderBy('id', 'desc')->dbkSimplePaginate(2);
 ```
 
-`idbPaginate`、和`idbSimplePaginate`方法底层使用的tp框架的分页驱动，因此在`illuminate/database`原本的`paginate()`方法上追加了3个参数,
+`dbkPaginate`、和`dbkSimplePaginate`方法底层使用的tp框架的分页驱动，因此在`illuminate/database`原本的`paginate()`方法上追加了3个参数,
 
 以下是具体参数和默认值
 ```
-idbPaginate(
+dbkPaginate(
 $perPage = null,  //每页数量-》类似tp的分页参数中的list_rows
 $columns = ['*'], 
 $pageName = 'page', //分页变量-》类似tp的分页参数中的var_page

@@ -1,32 +1,27 @@
 <?php
 
-namespace ajiho\IlluminateDatabase;
+namespace ajiho\databasekit;
 
 
-use Illuminate\Support\Facades\Facade;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
-class Command extends \think\console\Command
+abstract class Command extends \think\console\Command
 {
 
-
-    protected $laravel;
-
-    protected $subsPath;
-
-    public function __construct()
+    public function getApplication()
     {
 
-        parent::__construct();
-
-        $app = Facade::getFacadeApplication();
-
-        $app->registerCommands();
-
-        $this->laravel = $app;
-
-        $this->subsPath = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR;
-
+        return new Application($this->app,$this->app->getRootPath());
     }
 
+
+    public function call($command,array $parameters = [])
+    {
+
+        $app = $this->getApplication();
+
+
+        $app['app.console']->call($command, $parameters, new ConsoleOutput());
+    }
 
 }

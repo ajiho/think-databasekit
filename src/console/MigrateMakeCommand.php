@@ -1,6 +1,6 @@
 <?php
 
-namespace ajiho\IlluminateDatabase\Console;
+namespace ajiho\databasekit\console;
 
 
 class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\MigrateMakeCommand
