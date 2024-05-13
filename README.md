@@ -2,7 +2,7 @@
 
 | **illuminate/database** | **think-databasekit** |
 |-------------------------|---------------------|
-| 7.0                     | ^1.0                |
+| ^7.0                     | ^1.0                |
 
 
 
@@ -17,8 +17,9 @@ laravel的orm操作。
 
 - 无侵入性安装，不和tp官方有任何冲突
 - 不影响tp内置的orm功能
-- 提供和artisan一模一样的指令,让你快速创建所需文件基本模板
+- 提供和`artisan`一模一样的指令,让你快速创建所需文件基本模板
 - 不单单是orm,也是一个强大的数据库迁移工具
+
 
 ## 安装
 
@@ -158,6 +159,7 @@ PREFIX =  test_
 - https://laravel.com/docs/7.x/eloquent
 - https://laravel.com/docs/7.x/database
 
+
 ## 计划
 
 
@@ -259,6 +261,7 @@ class Base extends Model
 $admins = \app\common\model\Admin::where('status', 1)->orderBy('id', 'desc')->paginate(10);
 ```
 
+
 这不是`think-databasekit`封装导致它无法使用的 ,因为如果你要使用它的原本的分页方法你还必须安装
 
 - [illuminate/pagination](https://packagist.org/packages/illuminate/pagination)
@@ -300,8 +303,4 @@ $path = null //追加的参数--》   url路径
 
 具体可以查看tp的官方文档的[分页参数部分](https://www.kancloud.cn/manual/thinkphp6_0/1037638)因此您想追加分页参数，应该就很容易明白了。以及在视图文件中渲染，也是按照原本tp的分页去渲染就完事了。
 
-
-### 待补充
-
-实战中有问题会继续补充。
 
